@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+	<script>console.log("0.04")</script>
+</head>
+
+<body>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        function getUrlParams() {
+            const params = {};
+            const queryString = window.location.search.slice(1);
+            const pairs = queryString.split("&");
+
+            pairs.forEach(pair => {
+                const [key, value] = pair.split("=");
+                params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+            });
+
+            return params;
+        }
+
+        const urlParams = getUrlParams();
+
+        const metadata = { ...urlParams };
+
+        createChat({
+            webhookUrl: 'https://primary-production-abf6.up.railway.app/webhook/e4087f73-3fb3-4bbd-a359-e9ea49f0f8fd/chat',
+            mode: 'fullscreen',
+            metadata: metadata,
+            showWelcomeScreen: false,
+            initialMessages: [
+                `Ask me Customer Success related questions about **${urlParams.company_name} (${urlParams.account_id})**`
+            ],
+            i18n: {
+                en: {
+                    title: 'Hi there! 👋',
+                    subtitle: "",
+                    footer: '',
+                    getStarted: 'New Conversation',
+                    inputPlaceholder: 'Type your question..',
+                },
+            }
+        });
+    </script>
+</body>
+
+</html>
